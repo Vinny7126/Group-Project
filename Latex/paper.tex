@@ -193,23 +193,18 @@
 
 % --- CHAPTER CONTENT ---
 
-% --- INTRODUCTION ---
-\newpage
-\pagenumbering{arabic} % Switch to Arabic numbers (1, 2)
-\setcounter{page}{1}   % Start counting from 1
-\phantomsection
-\addcontentsline{toc}{chapter}{\MakeUppercase{Introduction}} 
-\chapter*{\MakeUppercase{Introduction}} 
+\chapter*{\MakeUppercase{Introduction}}
+\addcontentsline{toc}{chapter}{\MakeUppercase{Introduction}}
 
-Principal Component Analysis (PCA) is a dimensionality-reduction technique that transforms high-dimensional data into a smaller set of new variables called principal components, which capture the most important patterns in the data.
+In the era of big data, researchers and analysts are frequently confronted with datasets containing a vast number of variables. While high-dimensional data provides a wealth of information, it introduces the "Curse of Dimensionality," leading to computational inefficiency, overfitting in machine learning models, and difficulties in visualization. Principal Component Analysis (PCA) stands as a cornerstone technique in statistical data analysis to address these challenges. By employing orthogonal linear transformations, PCA projects high-dimensional data onto a lower-dimensional subspace while maximizing the preservation of variance[cite: 28, 604].
 
-By focusing on directions of maximum variance, PCA helps simplify complex datasets, reduce noise, and improve visualization or model performance while preserving as much essential information as possible. It is widely used in fields such as machine learning, finance, image processing, and biology.
+This report explores the theoretical underpinnings and practical applications of PCA. We examine the intersection of statistics and linear algebra—specifically how concepts such as covariance matrices, eigenvectors, and eigenvalues are synthesized to identify latent structures within complex datasets. Furthermore, this project bridges theory and practice by applying PCA to a real-world dataset: the history of natural disasters in Vietnam.
 
-The objectives of this project include:
+The primary objectives of this project are:
 \begin{itemize}
-    \item Understanding the theoretical foundations of PCA.
-    \item Applying matrix operations to solve real-world problems.
-    \item Using MATLAB to simulate and calculate results efficiently.
+    \item \textbf{Theoretical Mastery:} To elucidate the mathematical foundations of PCA, focusing on eigen-decomposition and singular value decomposition (SVD).
+    \item \textbf{Algorithm Implementation:} To demonstrate the step-by-step mechanism of the PCA algorithm, including data standardization and feature vector selection.
+    \item \textbf{Practical Application:} To utilize Python and the \texttt{scikit-learn} library to analyze the Vietnam Natural Disaster dataset, reducing its dimensionality to reveal correlations between economic damage and human casualties.
 \end{itemize}
 
 % CHAPTER 1
@@ -903,13 +898,13 @@ The PCA Biplot (Figure \ref{fig:biplot}) visualizes both the disaster events (po
     \end{itemize}
 \end{itemize}
 
-% --- CONCLUSION ---
-\newpage
 \chapter{\MakeUppercase{Conclusion}}
 
-In conclusion, PCA is a powerful and practical method for reducing dimensionality, simplifying complex datasets, and revealing their underlying structure. By capturing the directions of greatest variance, it allows us to preserve essential information while removing noise and redundancy.
+Principal Component Analysis (PCA) serves as a powerful bridge between raw high-dimensional data and actionable insight. Through this report, we have demonstrated that PCA is not merely a data compression algorithm, but a fundamental tool for revealing the underlying structure of complex datasets. By rigorously applying linear algebra concepts—specifically the decomposition of covariance matrices—we established that the directions of maximum variance (principal components) often correspond to the most significant information signals[cite: 28, 730].
 
-Whether applied to machine learning, financial analysis, image processing, or biological data, PCA provides a foundation for clearer insights and more efficient models. Understanding how PCA works—and when to use it—helps us analyze data more effectively and make better, data-driven decisions.
+The effectiveness of this approach was validated through our case study of Vietnam Natural Disasters. By reducing the dataset from four dimensions to two, we retained over 70\% of the original information while gaining the ability to visualize distinct patterns[cite: 530, 551]. The resulting Biplot analysis provided a clear interpretative framework, distinguishing between "modern" disasters characterized by high economic costs and "historical" events characterized by high human casualties[cite: 583, 585].
+
+Ultimately, while PCA relies on assumptions of linearity, its efficiency, deterministic nature, and interpretability ensure its continued relevance. Whether applied to financial risk modeling, image processing, or disaster analysis, PCA remains an essential instrument for making data-driven decisions in an increasingly complex world.
 
 % =========================================================
 % REFERENCES
