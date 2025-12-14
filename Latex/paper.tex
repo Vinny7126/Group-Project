@@ -579,6 +579,7 @@ The resulting matrix $Z$ represents the original data compressed into fewer dime
 % ---------------------------------------------------------
 % 3.2 ILLUSTRATIVE EXAMPLE
 % ---------------------------------------------------------
+\newpage
 \section{Illustrative Example: Manual Verification}
 To demonstrate the mathematical mechanics of the algorithm described above, we perform a manual calculation on a simplified dataset.
 
@@ -693,6 +694,101 @@ Raw features often contain redundant information. PCA creates new composite feat
 
 \subsection{Speeding Up Clustering}
 Clustering algorithms like K-Means or DBSCAN struggle in high dimensions due to computational cost and the breakdown of distance metrics. Reducing thousands of features to a few dozen principal components makes clustering faster, more accurate, and more stable.
+
+% =========================================================
+% CHAPTER 5: CASE STUDY - VIETNAM NATURAL DISASTERS
+% =========================================================
+\newpage
+\chapter{Case Study: Analysis of Vietnam Natural Disasters}
+
+In this chapter, we apply Principal Component Analysis (PCA) to a real-world dataset to demonstrate its effectiveness in reducing dimensionality and identifying patterns in complex data.
+
+\section{Data Description}
+This analysis utilizes the \textit{Vietnam Natural Disaster} dataset, which records historical disaster events from 1953 to 2023. To analyze the severity and dimensionality of these events, we selected four key numerical variables that measure impact:
+\begin{itemize}
+    \item \textbf{Total Deaths:} The number of fatalities per event.
+    \item \textbf{No. Injured:} The number of people injured.
+    \item \textbf{Total Affected:} The total population affected (homeless, evacuated, etc.).
+    \item \textbf{Total Damage:} The economic cost adjusted for inflation (in thousands of US Dollars).
+\end{itemize}
+
+\section{Methodology}
+
+\subsection{Preprocessing Strategy: Log Transformation}
+Real-world disaster data is typically highly skewed; a single catastrophic typhoon may cause billions of dollars in damage, while hundreds of smaller floods cause significantly less. If raw data were used directly, the few "outlier" events would dominate the variance, causing PCA to ignore the patterns in common disasters.
+
+To resolve this, we applied a \textbf{Logarithmic Transformation} ($x' = \log(x+1)$) to all variables. This compresses the scale of extreme values, bringing the "billion-dollar" events closer to the average events statistically. This allows PCA to analyze the \textit{structure} of the data rather than just the magnitude.
+
+\section{Implementation in Python}
+We performed the analysis using the Python \texttt{scikit-learn} library. The core steps included loading the data, applying the log transformation, standardizing the values (Z-score), and computing the principal components.
+
+\begin{lstlisting}[language=Python, caption=Python Code for PCA Analysis]
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+# 1. LOAD DATA
+df = pd.read_csv('disaster_in_vietnam.csv')
+features = ['Total Deaths', 'No. Injured', 'Total Affected', 
+            "Total Damage, Adjusted ('000 US$)"]
+X = df[features].fillna(0)
+
+# 2. LOG TRANSFORMATION
+# We use log(1+x) to handle skewness
+X_log = np.log1p(X)
+
+# 3. STANDARDIZATION
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_log)
+
+# 4. APPLY PCA
+pca = PCA(n_components=2)
+principalComponents = pca.fit_transform(X_scaled)
+
+# 5. RESULTS
+print("Explained Variance Ratio:", pca.explained_variance_ratio_)
+\end{lstlisting}
+
+\newpage
+\section{Results and Interpretation}
+
+\subsection{Scree Plot Analysis}
+The Scree Plot below (Figure \ref{fig:scree}) illustrates the variance explained by each component. 
+\begin{itemize}
+    \item \textbf{PC1 (First Component):} Captures approximately \textbf{47.6\%} of the total information.
+    \item \textbf{PC2 (Second Component):} Captures approximately \textbf{22.8\%} of the total information.
+\end{itemize}
+Together, these two dimensions preserve over \textbf{70\%} of the dataset's original variability, successfully reducing the data from 4 dimensions to 2.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{final_scree_plot.png}
+    \caption{Scree Plot showing the variance explained by the first two components.}
+    \label{fig:scree}
+\end{figure}
+
+\newpage
+\subsection{Biplot Analysis}
+The PCA Biplot (Figure \ref{fig:biplot}) visualizes both the disaster events (points) and the original variables (vectors).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{final_pca_biplot.png}
+    \caption{PCA Biplot of Vietnam Natural Disasters (Log-Transformed).}
+    \label{fig:biplot}
+\end{figure}
+
+\textbf{Interpretation of Axes:}
+\begin{itemize}
+    \item \textbf{PC1 (Horizontal Axis) - Overall Severity:} All four feature vectors point to the right. This indicates that PC1 represents the general magnitude of a disaster. Events further to the right are historically the most catastrophic in terms of both human and economic cost.
+    \item \textbf{PC2 (Vertical Axis) - Human vs. Economic Cost:} This axis reveals a trade-off. "Total Deaths" and "Injured" vectors point downwards, while "Total Damage" points upwards. 
+    \begin{itemize}
+        \item \textit{Top Quadrant:} Events with high economic damage but fewer casualties (modern storms).
+        \item \textit{Bottom Quadrant:} Events with high casualties (deadlier historical events).
+    \end{itemize}
+\end{itemize}
 
 % --- CONCLUSION ---
 \newpage
