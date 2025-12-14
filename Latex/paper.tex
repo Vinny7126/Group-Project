@@ -239,6 +239,8 @@ Techniques are generally categorized into:
 \begin{itemize}
     \item \textbf{Linear methods:} Such as Principal Component Analysis (PCA) and Linear Discriminant Analysis (LDA).
     \item \textbf{Non-linear methods:} Such as t-SNE, UMAP, and Autoencoders.
+    \item \textbf{Justification for choosing PCA:} 
+For this study, we selected PCA over non-linear methods like t-SNE because \textbf{interpretability} is our priority. While t-SNE is excellent for clustering, it distorts the feature space, making it impossible to tell which original variables (e.g., "Deaths" vs "Damage") caused the separation. PCA preserves the linear weights (loadings), allowing us to construct a Biplot that explicitly links disaster severity to specific economic or human costs.
 \end{itemize}
 
 \section{Introduction to PCA}
@@ -333,6 +335,8 @@ Despite its utility, PCA has limitations:
     \item \textbf{Outliers:} PCA is sensitive to outliers, which can dominate the variance.
     \item \textbf{Information Definition:} It assumes variance is the best measure of information, which is not always true for classification tasks.
 \end{itemize}
+
+
 
 
 
@@ -586,11 +590,20 @@ To demonstrate the mathematical mechanics of the algorithm described above, we p
 \textbf{Problem:} We have data for 3 students involving their study hours (Variable $x$) and their test scores (Variable $y$). We wish to reduce this 2D data into 1D using PCA.
 
 \textbf{The Dataset:}
-\begin{itemize}
-    \item Student A: (2 hours, 8 points)
-    \item Student B: (4 hours, 12 points)
-    \item Student C: (6 hours, 16 points)
-\end{itemize}
+\begin{table}[h]
+    \centering
+    \caption{Dataset for Manual Calculation Example}
+    \label{tab:manual_example}
+    \begin{tabular}{ccc}
+        \toprule
+        \textbf{Student} & \textbf{Study Hours ($x$)} & \textbf{Test Score ($y$)} \\
+        \midrule
+        A & 2 & 8 \\
+        B & 4 & 12 \\
+        C & 6 & 16 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \subsection*{Execution}
 
@@ -639,6 +652,72 @@ Z = X_{cen} \cdot u_1 = \begin{pmatrix} -2 & -4 \\ 0 & 0 \\ 2 & 4 \end{pmatrix} 
 \]
 
 \textbf{Conclusion:} We successfully reduced the data from 2 coordinates (Hours, Score) to just 1 coordinate ($Z$) while capturing 100\% of the variance.
+
+% ---------------------------------------------------------
+% 3.3 Verification on Real Dataset Subset
+% ---------------------------------------------------------
+
+\newpage
+\section{Verification on Real Dataset Subset}
+To further validate our approach, we perform the same manual calculation on a subset of the actual \textit{Vietnam Natural Disaster} dataset. We selected three historical events from the 1960s where both human and economic impacts were recorded to observe how the large variance in "Damage" influences the principal components.
+
+\textbf{The Subset (Raw Data):}
+\begin{table}[h]
+    \centering
+    \caption{Subset of Vietnam Disasters for Manual Verification}
+    \label{tab:manual_real}
+    \begin{tabular}{llrr}
+        \toprule
+        \textbf{Event} & \textbf{Type} & \textbf{Deaths ($x$)} & \textbf{Damage ('000 \$) ($y$)} \\
+        \midrule
+        1 & Typhoon Iris (1964) & 7,000 & 471,770 \\
+        2 & Riverine Flood (1966) & 31 & 90,163 \\
+        3 & Fire Accident (1967) & 3 & 4,387 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection*{Step-by-Step Execution}
+
+\textbf{1. Calculation of Means:} \\
+First, we compute the average for each feature:
+\[ \bar{x} = \frac{7000 + 31 + 3}{3} \approx 2,344.67 \]
+\[ \bar{y} = \frac{471770 + 90163 + 4387}{3} \approx 188,773.33 \]
+
+\textbf{2. Centering the Data ($X - \mu$):} \\
+We subtract the mean from each data point to center the dataset at (0,0):
+\[
+X_{cen} = \begin{pmatrix} 
+4655.33 & 282996.67 \\ 
+-2313.67 & -98610.33 \\ 
+-2341.67 & -184386.33 
+\end{pmatrix}
+\]
+
+\textbf{3. Covariance Matrix ($\Sigma$):} \\
+We calculate the covariance matrix using $\Sigma = \frac{1}{n-1} X_{cen}^T X_{cen}$ (with $n=3$):
+\[
+\Sigma \approx \begin{pmatrix} 
+1.63 \times 10^7 & 9.89 \times 10^8 \\ 
+9.89 \times 10^8 & 6.19 \times 10^{10} 
+\end{pmatrix}
+\]
+\textit{Observation:} The variance of Variable $y$ (Damage) is approximately $6.19 \times 10^{10}$, which is significantly larger than the variance of $x$ (Deaths). This mathematically confirms why standardization (Log Transformation/Scaling) is critical for this dataset; otherwise, "Damage" would completely dominate the analysis.
+
+\textbf{4. Eigenvalues and Eigenvectors:} \\
+Solving the characteristic equation $\det(\Sigma - \lambda I) = 0$ yields two eigenvalues:
+\begin{itemize}
+    \item $\lambda_1 \approx 6.19 \times 10^{10}$ (Accounts for $>99\%$ of the variance).
+    \item $\lambda_2 \approx 4.64 \times 10^5$ (Accounts for $<1\%$ of the variance).
+\end{itemize}
+The eigenvector corresponding to PC1 is approximately $v_1 = [-0.016, -0.999]^T$. The value $-0.999$ indicates that PC1 is almost entirely aligned with the "Damage" axis.
+
+\textbf{5. Projection:} \\
+Finally, we project the centered data onto the new PC1 axis ($Z = X_{cen} \cdot v_1$):
+\[
+Z \approx \begin{pmatrix} -283,035 \\ 98,635 \\ 184,400 \end{pmatrix}
+\]
+This step successfully reduces our 2-dimensional data (Deaths, Damage) into a 1-dimensional representation ($Z$) while preserving the vast majority of the variance found in the original subset.
 
 % =========================================================
 % CHAPTER 4: APPLICATIONS OF PCA
@@ -712,6 +791,26 @@ This analysis utilizes the \textit{Vietnam Natural Disaster} dataset, which reco
     \item \textbf{Total Damage:} The economic cost adjusted for inflation (in thousands of US Dollars).
 \end{itemize}
 
+\begin{table}[h]
+    \centering
+    \caption{Sample of the Vietnam Natural Disaster Dataset (Raw Data)}
+    \label{tab:dataset_sample}
+    \begin{tabular}{lrrrr}
+        \toprule
+        \textbf{Event ID} & \textbf{Total Deaths} & \textbf{Injured} & \textbf{Affected} & \textbf{Damage Adj ('000 US\$)} \\
+        \midrule
+        1953-0019-VNM & 1,000 & 0 & 0 & 0 \\
+        1956-0050-VNM & 56 & 0 & 0 & 0 \\
+        1964-0004-VNM & 598 & 0 & 10,848 & 0 \\
+        1964-0063-VNM & 7,000 & 0 & 700,000 & 471,770 \\
+        1964-0102-VNM & 400 & 0 & 0 & 0 \\
+        \bottomrule
+    \end{tabular}
+    \vspace{0.2cm}
+    
+    \small{\textit{Note: Top 5 rows from the dataset. Missing values (NaN) were filled with 0 during preprocessing. Event 1964-0063-VNM (Typhoon Iris) shows the high variance in the data.}}
+\end{table}
+
 \section{Methodology}
 
 \subsection{Preprocessing Strategy: Log Transformation}
@@ -747,6 +846,11 @@ X_scaled = scaler.fit_transform(X_log)
 pca = PCA(n_components=2)
 principalComponents = pca.fit_transform(X_scaled)
 
+# 4.5 VALIDATION (Reconstruction Error)
+X_reconstructed = pca.inverse_transform(principalComponents)
+loss = np.linalg.norm(X_scaled - X_reconstructed) / np.linalg.norm(X_scaled)
+print(f"Reconstruction Loss: {loss:.4f}")
+
 # 5. RESULTS
 print("Explained Variance Ratio:", pca.explained_variance_ratio_)
 \end{lstlisting}
@@ -768,6 +872,15 @@ Together, these two dimensions preserve over \textbf{70\%} of the dataset's orig
     \caption{Scree Plot showing the variance explained by the first two components.}
     \label{fig:scree}
 \end{figure}
+
+\subsection{Model Validation: Reconstruction Error}
+To validate the quality of our dimensionality reduction, we calculated the \textbf{Reconstruction Error}. This metric measures the deviation between the original data ($X$) and the data reconstructed from the two principal components ($X_{approx}$). It is defined as the normalized Frobenius norm of the difference:
+
+\begin{equation}
+    \text{Error} = \frac{||X - X_{approx}||_F}{||X||_F}
+\end{equation}
+
+Our analysis yielded a reconstruction loss of \textbf{0.5439}. This result is mathematically consistent with our Scree Plot analysis. Since our two principal components capture approximately \textbf{70.4\%} of the total variance, the remaining \textbf{29.6\%} accounts for the information loss ($\sqrt{0.296} \approx 0.54$). This confirms that while some fine-grained detail is lost, the 2D projection successfully captures the dominant structural relationships of the disaster dataset.
 
 \newpage
 \subsection{Biplot Analysis}

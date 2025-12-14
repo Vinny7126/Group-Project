@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.8)  14 DEC 2025 22:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.8)  14 DEC 2025 23:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -980,7 +980,7 @@ Package hyperref Info: Link coloring OFF on input line 120.
 \@outlinefile=\write4
 \openout4 = `paper.out'.
 
-<HCMUT_official_logo.png, id=278, 291.0072pt x 293.898pt>
+<HCMUT_official_logo.png, id=286, 291.0072pt x 293.898pt>
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
 Package pdftex.def Info: HCMUT_official_logo.png  used on input line 148.
@@ -1037,188 +1037,204 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 310.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 307.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
 [3]
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 330.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 325.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
  [4]
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 342.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 346.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
  [5]
 Chapter 2.
 
-Overfull \hbox (31.4646pt too wide) in paragraph at lines 345--346
+Overfull \hbox (31.4646pt too wide) in paragraph at lines 349--350
 \T5/phv/m/n/12 Prin-ci-pal Com-po-nent Anal-y-sis (PCA), in-clud-ing ex-pec-ta-tion, co-vari-ance, and eigen-decomposition. 
  []
 
 
-Overfull \hbox (18.15619pt too wide) in paragraph at lines 355--357
+Overfull \hbox (18.15619pt too wide) in paragraph at lines 359--361
 []\T5/phv/b/n/12 For a Dis-crete Ran-dom Vari-able: \T5/phv/m/n/12 If $\OML/cmm/m/it/12 X$ \T5/phv/m/n/12 takes val-ues $\OML/cmm/m/it/12 x[]; x[]; [] ; x[]$ \T5/phv/m/n/12 with prob-a-bil-i-ties $\OML/cmm/m/it/12 p[]; p[]; [] ; p[]$\T5/phv/m/n/12 : 
  []
 
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 385.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 389.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
 [6
 
 ]
-Overfull \hbox (24.16971pt too wide) in paragraph at lines 405--406
+Overfull \hbox (24.16971pt too wide) in paragraph at lines 409--410
 []\T5/phv/b/n/12 Relation to In-de-pen-dence: \T5/phv/m/n/12 If $\OML/cmm/m/it/12 X$ \T5/phv/m/n/12 and $\OML/cmm/m/it/12 Y$ \T5/phv/m/n/12 are in-de-pen-dent (and in-te-grable), then $[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 X; Y\OT1/cmr/m/n/12 ) =
  []
 
 LaTeX Font Info:    Font shape `T5/phv/m/it' in size <12> not available
-(Font)              Font shape `T5/phv/m/sl' tried instead on input line 407.
+(Font)              Font shape `T5/phv/m/sl' tried instead on input line 411.
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 426.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 430.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
 [7]
-Overfull \hbox (0.16895pt too wide) in paragraph at lines 452--453
+Overfull \hbox (0.16895pt too wide) in paragraph at lines 456--457
 \T5/phv/m/n/12 A co-vari-ance ma-trix sum-ma-rizes how pairs of fea-tures vary to-gether. For fea-tures $\OML/cmm/m/it/12 X[]; [] ; X[]$\T5/phv/m/n/12 : 
  []
 
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 472.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 476.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
 [8]
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 512.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 516.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
  [9]
-Overfull \hbox (23.99031pt too wide) in paragraph at lines 526--527
+Overfull \hbox (23.99031pt too wide) in paragraph at lines 530--531
 []\T5/phv/m/n/12 PCA projects mean-centered data onto the first $\OML/cmm/m/it/12 r$ \T5/phv/m/n/12 eigen-vec-tors to cre-ate a lower-dimensional
  []
 
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 532.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 536.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
 [10]
 Chapter 3.
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 555.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 559.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
 [11
 
 ]
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 582.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 586.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
  [12]
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 633.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 640.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
  [13]
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 646.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 660.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
  [14]
+File: HCMUT_official_logo.png Graphic file (type png)
+<use HCMUT_official_logo.png>
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 715.
+(pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
+ [15]
+Overfull \hbox (7.19981pt too wide) in paragraph at lines 719--721
+\T5/phv/m/n/12 This step suc-cess-fully re-duces our 2-dimensional data (Deaths, Dam-age) into a 1-dimensional
+ []
+
+File: HCMUT_official_logo.png Graphic file (type png)
+<use HCMUT_official_logo.png>
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 725.
+(pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
+[16]
 Chapter 4.
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 667.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 746.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
-[15
+[17
 
 ]
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 686.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 765.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
- [16]
+ [18]
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 701.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 780.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
- [17]
+ [19]
 Chapter 5.
+LaTeX Font Info:    Font shape `T5/phv/m/it' in size <10.95> not available
+(Font)              Font shape `T5/phv/m/sl' tried instead on input line 811.
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 722.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 818.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
-[18
+[20
 
 ]
-LaTeX Font Info:    Trying to load font information for T5+cmtt on input line 723.
+LaTeX Font Info:    Trying to load font information for T5+cmtt on input line 822.
  (C:\Users\vince\AppData\Local\Programs\MiKTeX\tex/latex/vntex\t5cmtt.fd
 File: t5cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 ) (C:\Users\vince\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 725.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 824.
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 754.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 858.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
- [19]
-<final_scree_plot.png, id=523, 578.16pt x 361.35pt>
+ [21]
+<final_scree_plot.png, id=552, 578.16pt x 361.35pt>
 File: final_scree_plot.png Graphic file (type png)
 <use final_scree_plot.png>
-Package pdftex.def Info: final_scree_plot.png  used on input line 767.
+Package pdftex.def Info: final_scree_plot.png  used on input line 871.
 (pdftex.def)             Requested size: 338.58632pt x 211.6122pt.
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 772.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 885.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
- [20 <./final_scree_plot.png>]
-<final_pca_biplot.png, id=532, 722.7pt x 578.16pt>
+ [22 <./final_scree_plot.png>]
+<final_pca_biplot.png, id=563, 722.7pt x 578.16pt>
 File: final_pca_biplot.png Graphic file (type png)
 <use final_pca_biplot.png>
-Package pdftex.def Info: final_pca_biplot.png  used on input line 778.
+Package pdftex.def Info: final_pca_biplot.png  used on input line 891.
 (pdftex.def)             Requested size: 386.95897pt x 309.56396pt.
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 794.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 907.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
- [21 <./final_pca_biplot.png>]
+ [23 <./final_pca_biplot.png>]
 Chapter 6.
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 804.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 917.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
-[22
+[24
 
 ]
 Chapter 7.
 
-Overfull \hbox (26.85129pt too wide) in paragraph at lines 831--833
+Overfull \hbox (26.85129pt too wide) in paragraph at lines 944--946
 []\T5/phv/m/n/12 Shlens, J. (2014). A tu-to-rial on prin-ci-pal com-po-nent anal-y-sis. \T5/phv/m/sl/12 arXiv preprint arXiv:1404.1100\T5/phv/m/n/12 . 
  []
 
 
-Overfull \hbox (19.73611pt too wide) in paragraph at lines 834--836
+Overfull \hbox (19.73611pt too wide) in paragraph at lines 947--949
 []\T5/phv/m/n/12 Strang, G. (2023). \T5/phv/m/sl/12 Lin-ear al-ge-bra and learn-ing from data \T5/phv/m/n/12 (Chap-ter 7). Wellesley-Cambridge
  []
 
 
-Overfull \hbox (1.92122pt too wide) in paragraph at lines 847--849
+Overfull \hbox (1.92122pt too wide) in paragraph at lines 960--962
 \T5/phv/m/n/12 Avail-able: []$\T5/cmtt/m/n/12 https : / / www . cs . princeton . edu / picasso / mats / PCA -[] Tutorial -[] Intuition _
  []
 
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 854.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 967.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
-[23
+[25
 
 ]
 File: HCMUT_official_logo.png Graphic file (type png)
 <use HCMUT_official_logo.png>
-Package pdftex.def Info: HCMUT_official_logo.png  used on input line 854.
+Package pdftex.def Info: HCMUT_official_logo.png  used on input line 967.
 (pdftex.def)             Requested size: 16.90018pt x 17.07182pt.
- [24] 
+ [26] 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
 (paper.aux)
  ***********
@@ -1226,20 +1242,20 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-06>
  ***********
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: A81507233A647C72AF8BFD2E722B58F5;12965.
+(rerunfilecheck)             Checksum: 4872956F0ADF972FCBDE52BA4DCB6F55;13468.
  ) 
 Here is how much of TeX's memory you used:
- 30659 strings out of 467871
- 605870 string characters out of 5418376
- 1271004 words of memory out of 5000000
- 58903 multiletter control sequences out of 15000+600000
- 664503 words of font info for 93 fonts, out of 8000000 for 9000
+ 30686 strings out of 467871
+ 606239 string characters out of 5418376
+ 1306198 words of memory out of 5000000
+ 58916 multiletter control sequences out of 15000+600000
+ 666911 words of font info for 94 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,16n,107p,573b,1330s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 108i,16n,107p,583b,1330s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/urwvn/uhvb8v.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/urwvn/uhvr8v.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/urwvn/uhvro8v.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt10.pfb><C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt12.pfb>
-Output written on paper.pdf (27 pages, 437054 bytes).
+Output written on paper.pdf (29 pages, 454503 bytes).
 PDF statistics:
- 672 PDF objects out of 1000 (max. 8388607)
- 157 named destinations out of 1000 (max. 500000)
- 572 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 704 PDF objects out of 1000 (max. 8388607)
+ 171 named destinations out of 1000 (max. 500000)
+ 588 words of extra memory for PDF output out of 10000 (max. 10000000)
 

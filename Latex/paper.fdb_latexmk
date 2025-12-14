@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1765724796.6359 "d:/University/HCMUT/Linear Algebra/Group-Project/Latex/paper.tex" "paper.pdf" "paper" 1765724798.7807 0
+["pdflatex"] 1765730578.49161 "d:/University/HCMUT/Linear Algebra/Group-Project/Latex/paper.tex" "paper.pdf" "paper" 1765730580.73283 0
   "C:/Users/vince/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1765376155 89969 e95579120a3aa0ebc21d2737ca2ba701 ""
   "C:/Users/vince/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1765127045 13333511 8a81328446577ce2ef514dd8ddacbf79 ""
   "C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -209,13 +209,13 @@
   "C:/Users/vince/AppData/Local/Programs/MiKTeX/tex/latex/vntex/vncaps.tex" 1368738347 3273 a55ebdb07413d2fea580f210e3c0b252 ""
   "C:/Users/vince/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
   "HCMUT_official_logo.png" 1764295914 100724 34813e7945d25073d2021fd11a318249 ""
-  "d:/University/HCMUT/Linear Algebra/Group-Project/Latex/paper.tex" 1765724793 42925 253e3428f689df76f406c349bf97d305 ""
-  "final_pca_biplot.png" 1765723799 103905 dce05d7d5417c108b92cca8d98b3ae8e ""
-  "final_scree_plot.png" 1765723807 25160 b99737c68f50e6661c2888e4c6be479c ""
-  "paper.aux" 1765724798 11284 15daeeb26d53e5ed791262580def9d2e "pdflatex"
-  "paper.out" 1765724798 12965 a81507233a647c72af8bfd2e722b58f5 "pdflatex"
-  "paper.tex" 1765724793 42925 253e3428f689df76f406c349bf97d305 ""
-  "paper.toc" 1765724798 6329 d1c1950098e91681f3882c0b6ca63e0c "pdflatex"
+  "d:/University/HCMUT/Linear Algebra/Group-Project/Latex/paper.tex" 1765730577 48818 0ccd2965821b7a803e0931af400683ea ""
+  "final_pca_biplot.png" 1765728292 104240 adf287d08b9e44ad53b0c5029b30bf2f ""
+  "final_scree_plot.png" 1765728008 25160 b99737c68f50e6661c2888e4c6be479c ""
+  "paper.aux" 1765730580 12370 26eb0473c8c3411a82f48e76c6bab7fd "pdflatex"
+  "paper.out" 1765730580 13468 4872956f0adf972fcbde52ba4dcb6f55 "pdflatex"
+  "paper.tex" 1765730577 48818 0ccd2965821b7a803e0931af400683ea ""
+  "paper.toc" 1765730580 6534 f7d8b662d8ead3c4a267f2fe9504bf99 "pdflatex"
   (generated)
   "paper.aux"
   "paper.log"

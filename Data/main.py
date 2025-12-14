@@ -23,27 +23,42 @@ pca = PCA(n_components=2)
 principalComponents = pca.fit_transform(X_scaled)
 pca_df = pd.DataFrame(data=principalComponents, columns=['PC1', 'PC2'])
 
-# --- 5. GRAPH 1: THE BIPLOT (The Disaster Map) ---
+# --- NEW STEP 4.5: CALCULATE RECONSTRUCTION ERROR (Validation) ---
+# Project back to original space to see how much info was lost
+X_reconstructed = pca.inverse_transform(principalComponents)
+# Frobenius norm of the difference
+reconstruction_loss = np.linalg.norm(X_scaled - X_reconstructed) / np.linalg.norm(X_scaled)
+
+# --- 5. GRAPH 1: THE BIPLOT (Updated with Clustering Colors) ---
 plt.figure(figsize=(10, 8))
-plt.scatter(pca_df['PC1'], pca_df['PC2'], alpha=0.5, c='#1f77b4', edgecolors='k', label='Disaster Events')
+
+# Create Logic for Colors: 
+# If PC2 > 0: High Economic Damage (Blue)
+# If PC2 < 0: High Human Casualties (Red)
+colors = ['#d62728' if y < 0 else '#1f77b4' for y in pca_df['PC2']]
+
+# We use a loop to create a legend with unique entries
+for i, color in enumerate(['#d62728', '#1f77b4']):
+    label = ['High Human Cost', 'High Economic Cost'][i]
+    subset = pca_df [ (pca_df['PC2'] < 0) if i==0 else (pca_df['PC2'] >= 0) ]
+    plt.scatter(subset['PC1'], subset['PC2'], alpha=0.6, c=color, edgecolors='k', label=label)
 
 # Draw arrows
 scale_factor = 3.5
 for i, feature in enumerate(features):
     plt.arrow(0, 0, pca.components_[0, i]*scale_factor, pca.components_[1, i]*scale_factor, 
-              color='red', width=0.05, head_width=0.2)
+              color='black', width=0.05, head_width=0.2) 
     plt.text(pca.components_[0, i]*scale_factor*1.15, pca.components_[1, i]*scale_factor*1.15, 
-             feature, color='darkred', weight='bold', fontsize=12, ha='center', va='center')
+             feature, color='black', weight='bold', fontsize=12, ha='center', va='center')
 
 plt.xlabel(f'PC1 - Overall Severity ({pca.explained_variance_ratio_[0]:.1%} Variance)')
 plt.ylabel(f'PC2 - Casualty vs. Economic ({pca.explained_variance_ratio_[1]:.1%} Variance)')
-plt.title('PCA of Vietnam Natural Disasters (Log-Transformed)')
+plt.title('PCA of Vietnam Natural Disasters (Clustered by Impact Type)')
 plt.grid(True, linestyle='--', alpha=0.5)
 plt.axhline(0, color='black', linewidth=0.8)
 plt.axvline(0, color='black', linewidth=0.8)
 plt.legend()
 
-# SAVE GRAPH 1
 plt.savefig('final_pca_biplot.png') 
 print("Graph 1 saved as 'final_pca_biplot.png'")
 plt.show()
@@ -71,3 +86,4 @@ print("\n--- ANALYSIS RESULTS ---")
 print(f"PC1 Variance: {pca.explained_variance_ratio_[0]:.2%}")
 print(f"PC2 Variance: {pca.explained_variance_ratio_[1]:.2%}")
 print(f"Total Variance Captured: {sum(pca.explained_variance_ratio_):.2%}")
+print(f"Reconstruction Loss: {reconstruction_loss:.4f} (Lower is better)")
