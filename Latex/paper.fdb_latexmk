@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1765732377.83574 "d:/University/HCMUT/Linear Algebra/Group-Project/Latex/paper.tex" "paper.pdf" "paper" 1765732379.90894 0
+["pdflatex"] 1765978531.00331 "d:/University/HCMUT/Linear Algebra/Group-Project/Latex/paper.tex" "paper.pdf" "paper" 1765978533.54733 0
   "C:/Users/vince/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1765376155 89969 e95579120a3aa0ebc21d2737ca2ba701 ""
   "C:/Users/vince/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1765127045 13333511 8a81328446577ce2ef514dd8ddacbf79 ""
   "C:/Users/vince/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -209,13 +209,14 @@
   "C:/Users/vince/AppData/Local/Programs/MiKTeX/tex/latex/vntex/vncaps.tex" 1368738347 3273 a55ebdb07413d2fea580f210e3c0b252 ""
   "C:/Users/vince/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
   "HCMUT_official_logo.png" 1764295914 100724 34813e7945d25073d2021fd11a318249 ""
-  "d:/University/HCMUT/Linear Algebra/Group-Project/Latex/paper.tex" 1765732375 50432 28dc8feb10ee09a2886d968795ddd8ef ""
-  "final_pca_biplot.png" 1765728292 104240 adf287d08b9e44ad53b0c5029b30bf2f ""
-  "final_scree_plot.png" 1765728008 25160 b99737c68f50e6661c2888e4c6be479c ""
-  "paper.aux" 1765732379 12370 f0c5b791236a74a0b5328e6706ff3552 "pdflatex"
-  "paper.out" 1765732379 13468 3c1b7ae3141b8574669f1122f0f284ff "pdflatex"
-  "paper.tex" 1765732375 50432 28dc8feb10ee09a2886d968795ddd8ef ""
-  "paper.toc" 1765732379 6534 46d8caf81ca1c742c71913bc12c496dd "pdflatex"
+  "d:/University/HCMUT/Linear Algebra/Group-Project/Latex/paper.tex" 1765978521 67692 a044af248fff4cd62c47fa17498c8a5b ""
+  "final_pca_biplot.png" 1765952011 104258 c1200c82e6aab8d6f3db50e672385274 ""
+  "final_pca_time_series.png" 1765952015 151188 3aba1b122d819988bff22f0a704c09f2 ""
+  "final_scree_plot.png" 1765952013 25160 b99737c68f50e6661c2888e4c6be479c ""
+  "paper.aux" 1765978533 15163 66f2c38cf120a0a605ceb5f248fc4047 "pdflatex"
+  "paper.out" 1765978533 16890 6bf526ba195cfbf4d2767605802db073 "pdflatex"
+  "paper.tex" 1765978521 67692 a044af248fff4cd62c47fa17498c8a5b ""
+  "paper.toc" 1765978533 7945 115cb0b2573d392a16d034f5230c6342 "pdflatex"
   (generated)
   "paper.aux"
   "paper.log"

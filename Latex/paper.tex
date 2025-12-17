@@ -21,6 +21,7 @@
 \usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm, headheight=35pt]{geometry}
 \usepackage{graphicx}
 \usepackage{xcolor}
+\usepackage{listings}
 \usepackage{tikz}       
 \usetikzlibrary{calc}
 
@@ -814,41 +815,58 @@ Real-world disaster data is typically highly skewed; a single catastrophic typho
 
 To resolve this, we applied a \textbf{Logarithmic Transformation} ($x' = \log(x+1)$) to all variables. This compresses the scale of extreme values, bringing the "billion-dollar" events closer to the average events statistically. This allows PCA to analyze the \textit{structure} of the data rather than just the magnitude.
 
-\section{Implementation in Python}
-We performed the analysis using the Python \texttt{scikit-learn} library. The core steps included loading the data, applying the log transformation, standardizing the values (Z-score), and computing the principal components.
+\section{Development Environment}
+The implementation was conducted in a Python 3.9 environment, chosen for its extensive ecosystem of data science and linear algebra libraries. The following specific packages were utilized to bridge the mathematical theory from Chapter 2 with the practical application:
 
-\begin{lstlisting}[language=Python, caption=Python Code for PCA Analysis]
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
+\begin{itemize}
+    \item \textbf{NumPy (Numerical Python):} Used as the fundamental package for scientific computing. In this project, NumPy handles the low-level matrix operations (including the covariance calculations in Equation 2.3) and performs the **polynomial regression (polyfit)** required to calculate the trendline in our time-series analysis.
+    
+    \item \textbf{Pandas:} Employed for high-level data manipulation. We utilized Pandas to load the \texttt{.csv} dataset, handle missing values (filling NaNs), and align the multi-dimensional features (Deaths, Injuries, Damage) into a structured DataFrame ready for analysis.
+    
+    \item \textbf{Scikit-learn (sklearn):} The premier machine learning library in Python. We used the \texttt{sklearn.decomposition.PCA} module, which implements randomized Singular Value Decomposition (SVD) to compute principal components efficiently. This library also provided the \texttt{StandardScaler} for the necessary Z-score normalization (Equation 3.1) prior to analysis.
+    
+    \item \textbf{Matplotlib:} Used for data visualization. This library enabled the creation of the Scree Plot (to visualize variance retention), the PCA Biplot (projecting data onto the 2D plane), and the **Time-Series Evolution graph**, which required custom plotting logic to visualize the temporal shift in disaster impacts.
+\end{itemize}
 
-# 1. LOAD DATA
-df = pd.read_csv('disaster_in_vietnam.csv')
+\section{Code Implementation}
+The analysis was performed using Python (v3.9) with the \texttt{scikit-learn} library. The full source code is provided in Appendix A. Below are the critical implementation snippets extracted directly from our script.
+
+\subsection{Step 1: Data Preparation \& Preprocessing}
+We first selected the four numerical impact variables. To address missing data and extreme skewness, we filled null values with zero, applied a logarithmic transformation, and standardized the data (Z-score normalization).
+
+\begin{lstlisting}[language=Python, frame=single, basicstyle=\ttfamily\small, keywordstyle=\color{blue}]
+# Select only the numerical impact variables
 features = ['Total Deaths', 'No. Injured', 'Total Affected', 
             "Total Damage, Adjusted ('000 US$)"]
-X = df[features].fillna(0)
+X = df[features].fillna(0) 
 
-# 2. LOG TRANSFORMATION
-# We use log(1+x) to handle skewness
+# Log Transformation to handle skewness
 X_log = np.log1p(X)
 
-# 3. STANDARDIZATION
+# Standardization (Mean=0, Variance=1)
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X_log)
+\end{lstlisting}
 
-# 4. APPLY PCA
+\subsection{Step 2: PCA Algorithm}
+We utilized Singular Value Decomposition (SVD) via the \texttt{PCA} class. The results were stored in a new DataFrame to facilitate plotting.
+
+\begin{lstlisting}[language=Python, frame=single, basicstyle=\ttfamily\small, keywordstyle=\color{blue}]
+# Apply PCA
 pca = PCA(n_components=2)
 principalComponents = pca.fit_transform(X_scaled)
+pca_df = pd.DataFrame(data=principalComponents, columns=['PC1', 'PC2'])
+\end{lstlisting}
 
-# 4.5 VALIDATION (Reconstruction Error)
-X_reconstructed = pca.inverse_transform(principalComponents)
-loss = np.linalg.norm(X_scaled - X_reconstructed) / np.linalg.norm(X_scaled)
-print(f"Reconstruction Loss: {loss:.4f}")
+\subsection{Step 3: Biplot Visualization Logic}
+To distinguish between event types, we implemented a list comprehension to assign colors: red for negative PC2 (Modern/Economic-heavy) and blue for positive PC2 (Historic/Casualty-heavy).
+\begin{lstlisting}[language=Python, frame=single, basicstyle=\ttfamily\small, keywordstyle=\color{blue}]
+# Create Logic for Colors: 
+# If PC2 < 0: High Economic Damage (Red)
+# If PC2 > 0: High Human Casualties (Blue)
+colors = ['#d62728' if y < 0 else '#1f77b4' for y in pca_df['PC2']]
 
-# 5. RESULTS
-print("Explained Variance Ratio:", pca.explained_variance_ratio_)
+# (Plotting logic follows using plt.scatter with these colors)
 \end{lstlisting}
 
 \newpage
@@ -892,72 +910,285 @@ The PCA Biplot (Figure \ref{fig:biplot}) visualizes both the disaster events (po
 \textbf{Interpretation of Axes:}
 \begin{itemize}
     \item \textbf{PC1 (Horizontal Axis) - Overall Severity:} All four feature vectors point to the right. This indicates that PC1 represents the general magnitude of a disaster. Events further to the right are historically the most catastrophic in terms of both human and economic cost.
-    \item \textbf{PC2 (Vertical Axis) - Human vs. Economic Cost:} This axis reveals a trade-off. "Total Deaths" and "Injured" vectors point downwards, while "Total Damage" points upwards. 
+    \item \textbf{PC2 (Vertical Axis) - Human vs. Economic Cost:} This axis reveals a trade-off.
+    "Total Deaths" and "Injured" vectors point \textbf{upwards} (positive PC2), while "Total Damage" points \textbf{downwards} (negative PC2).
     \begin{itemize}
-        \item \textit{Top Quadrant:} Events with high economic damage but fewer casualties (modern storms).
-        \item \textit{Bottom Quadrant:} Events with high casualties (deadlier historical events).
+        \item \textit{Top Quadrant:} Events with high human casualties (deadlier historical events).
+        \item \textit{Bottom Quadrant:} Events with high economic damage but fewer casualties (modern storms).
     \end{itemize}
 \end{itemize}
 
+\newpage
+\subsection{Temporal Analysis: Evolution of Impact}
+To verify the distinction between "modern" and "historical" disasters, we plotted the PC2 values over time (Figure \ref{fig:timeseries}). 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{final_pca_time_series.png}
+    \caption{Time-Series Analysis of PC2 (1953–2023). The trendline (green) indicates a shift in the nature of disaster impacts over the decades.}
+    \label{fig:timeseries}
+\end{figure}
+
+\textbf{Observation:}
+The scatter plot reveals a distinct temporal shift:
+\begin{itemize}
+    \item \textbf{Historical Domain (1950s–1990s):} The data points are predominantly positive (blue), clustering in the upper region. This confirms that historical disasters were characterized primarily by high human casualties (aligning with the "Total Deaths" vector).
+    \item \textbf{Modern Domain (2000s–Present):} The data points shift towards the negative region (red). This reflects Vietnam's economic development—while fewer lives are lost, the economic value of infrastructure exposed to storms has increased, driving the points downward toward the "Total Damage" vector.
+\end{itemize}
+The \textbf{negative slope} of the trendline mathematically confirms that the "Nature of Impact" (PC2) is evolving from human cost (positive PC2) to economic cost (negative PC2).
+% =========================================================
+% CHAPTER 6: STORYTELLING (NEW ADDITION)
+% =========================================================
+\chapter{Storytelling: The Historical Evolution of Disasters in Central Vietnam}
+
+While Chapter 5 presented the technical implementation of PCA, this chapter interprets those findings through a historical and socio-economic lens. By integrating the structural insights from the Biplot with a temporal trend analysis, we uncover a fundamental shift in the nature of natural disasters in Central Vietnam: a transition from humanitarian tragedies to economic burdens.
+
+\section{Economic Context: The Inflation Adjustment}
+To accurately compare disaster impacts across different eras, it is crucial to account for the time value of money. The dataset utilized in this study employs Inflation-Adjusted Costs (Real Value), calculated based on the Consumer Price Index (CPI). The adjustment formula is defined as follows [16]:
+
+\begin{equation}
+    Damage_{Adj} = Damage_{Nominal} \times \frac{CPI_{Ref}}{CPI_{Event}}
+\end{equation}
+
+Table \ref{tab:story_outliers} illustrates the magnitude of this adjustment for the key historical outliers identified in our analysis. This conversion reveals that historical storms, while seemingly less costly in nominal terms, inflicted massive economic destruction relative to the economy of that era.
+
+\begin{table}[h]
+    \centering
+    \caption{Major Historical Disasters in Central Vietnam (Verified Data)}
+    \label{tab:story_outliers}
+    \begin{tabular}{lllr}
+        \toprule
+        \textbf{Event / Year} & \textbf{Impact Zone} & \textbf{Era Context} & \textbf{Damage (Adj. 2023)} \\
+        \midrule
+        Typhoon Iris (1964) & Central Coast & War / Low Infrastructure & \$471,770,000 \\
+        Historic Flood (1999) & Thua Thien Hue & Pre-modern Urbanization & \$500,000,000 \\
+        Typhoon Xangsane (2006) & Da Nang City & Rapid Urban Growth & \$1,200,000,000 \\
+        Typhoon Molave (2020) & Quang Ngai & Modern Coastal Economy & \$850,000,000 \\
+        \bottomrule
+    \end{tabular}
+    \vspace{0.2cm}
+    \small{\textit{Source: Extracted from dataset analysis and Table 3.2 of this report.}}
+\end{table}
+
+\section{Deep Analysis of PCA Visualizations}
+Our storytelling is constructed through a three-step analytical process, connecting the reliability of the model (Scree Plot) to the structure of destruction (Biplot) and finally to the historical evolution (Time Series).
+
+\subsection{Graph 1: Scree Plot — Establishing Reliability}
+The Scree Plot (Figure \ref{fig:scree}) is not merely a technical output; it establishes the credibility of our narrative.
+\begin{itemize}
+    \item \textbf{Result:} The first two principal components (PC1 and PC2) cumulatively explain 70.4\% of the dataset's variance.
+    \item \textbf{Analysis:} This high retention rate implies that the complex history of disasters (involving four distinct variables: Deaths, Injured, Affected, Damage) can be reliably compressed into a 2-dimensional story. It confirms that the trends discussed below are dominant structural signals, not random statistical noise.
+\end{itemize}
+
+\subsection{Graph 2: The Biplot — The "Map of Destruction"}
+The Biplot (Figure \ref{fig:biplot}) serves as the compass for our analysis. It defines what makes a disaster severe and how different disasters behave.
+
+\textbf{Axis Interpretation:}
+\begin{itemize}
+    \item \textbf{PC1 (Horizontal) - Absolute Severity:} All vectors point to the right. This means points further to the right represent the most extreme events in history (Outliers).
+    \item \textbf{PC2 (Vertical) - The Trade-off (Nature of Impact):} This axis reveals a stark contrast:
+    \begin{itemize}
+        \item The \textbf{Total Deaths} vector points \textbf{UPWARDS} (Positive PC2).
+        \item The \textbf{Total Damage} vector points \textbf{DOWNWARDS} (Negative PC2).
+    \end{itemize}
+\end{itemize}
+
+\textbf{Analysis of Outliers (The "Monsters" of History):}
+The Biplot allows us to profile specific historical outliers based on their quadrant position:
+\begin{itemize}
+    \item \textbf{The "Killer" Outlier (Typhoon Iris, 1964):} Located in the top-right quadrant (High PC1, Positive PC2). This event is pulled strongly by the "Total Deaths" vector. It represents the era of humanitarian fragility, where a single storm could claim 7,000 lives due to poor infrastructure.
+    \item \textbf{The "Bankrupting" Outlier (Typhoon Molave, 2020):} Located in the bottom-right quadrant (High PC1, Negative PC2). This event is pulled by the "Total Damage" vector. It represents the modern era: resilient to loss of life, but highly vulnerable to massive financial losses due to expensive coastal infrastructure.
+\end{itemize}
+
+\subsection{Graph 3: Time Series — The Historical Shift}
+The linear trendline exhibits a clear negative slope, confirming a systematic shift in disaster nature:
+
+\begin{itemize}
+    \item \textbf{Phase 1: The Humanitarian Crisis Era (Pre-2000):} Most data points (\textbf{Blue dots}) cluster in the positive region ($PC2 > 0$).
+    \textit{Insight:} During this period, Vietnam's economy was agrarian with low asset density. However, early warning systems were rudimentary. Consequently, disasters were defined by High Casualties. The outliers here are tragedies like the 1964 Typhoon Iris.
+    
+    \item \textbf{Phase 2: The Economic Burden Era (Post-2000):} Data points (\textbf{Red dots}) migrate significantly to the negative region ($PC2 < 0$).
+    \textit{Insight:} This period coincides with Vietnam's rapid industrialization and urbanization. The "Four-on-the-spot" policy effectively reduced fatalities (lowering PC2). However, the proliferation of resorts, factories, and urban housing along the Central Coast meant that storms now destroy high-value assets. Disasters are now defined by High Economic Costs.
+\end{itemize}
+
+\section{Limitations of the Study}
+While PCA successfully reveals structural trends, this study acknowledges certain limitations:
+\begin{enumerate}
+    \item \textbf{Data Incompleteness:} Historical data (pre-1990) often lacks precise economic damage records. Imputing these missing values with zero (as done in Step 1 of our methodology) may underestimate the economic impact of older events [16].
+    \item \textbf{Event Clustering:} Some historical records may aggregate multiple storms into a single annual entry, potentially inflating the "Severity" (PC1) of that specific year.
+    \item \textbf{Wealth Density Factor:} Although we adjusted for inflation, we did not adjust for the increase in regional GDP. A million-dollar loss in 1964 represented a much larger share of the local economy than in 2024. Normalizing damage by GDP would provide a more accurate measure of true economic resilience [17].
+\end{enumerate}
+
+\section{Summary}
+In conclusion, PCA has served as a powerful "decoder" for the history of natural disasters in Central Vietnam. It transformed a chaotic 4-dimensional dataset into a clear historical narrative. The analysis provides quantitative evidence that Vietnam has effectively transitioned from a phase of high human vulnerability to a phase of high asset exposure. This suggests that future disaster management policies must evolve from purely life-saving measures to financial resilience strategies to safeguard the nation's growing economic wealth [18].
+
+% =========================================================
+% CHAPTER 7: CONCLUSION (Renumbered)
+% =========================================================
 \chapter{\MakeUppercase{Conclusion}}
 
-Principal Component Analysis (PCA) serves as a powerful bridge between raw high-dimensional data and actionable insight. Through this report, we have demonstrated that PCA is not merely a data compression algorithm, but a fundamental tool for revealing the underlying structure of complex datasets. By rigorously applying linear algebra concepts—specifically the decomposition of covariance matrices—we established that the directions of maximum variance (principal components) often correspond to the most significant information signals[cite: 28, 730].
+Principal Component Analysis (PCA) serves as a powerful bridge between raw high-dimensional data and actionable insight. Through this report, we have demonstrated that PCA is not merely a data compression algorithm, but a fundamental tool for revealing the underlying structure of complex datasets. By rigorously applying linear algebra concepts—specifically the decomposition of covariance matrices—we established that the directions of maximum variance (principal components) often correspond to the most significant information signals [1, 10].
 
-The effectiveness of this approach was validated through our case study of Vietnam Natural Disasters. By reducing the dataset from four dimensions to two, we retained over 70\% of the original information while gaining the ability to visualize distinct patterns[cite: 530, 551]. The resulting Biplot analysis provided a clear interpretative framework, distinguishing between "modern" disasters characterized by high economic costs and "historical" events characterized by high human casualties[cite: 583, 585].
+The effectiveness of this approach was validated through our case study of Vietnam Natural Disasters. By reducing the dataset from four dimensions to two, we retained over 70\% of the original information while gaining the ability to visualize distinct patterns [9]. The resulting Biplot analysis provided a clear interpretative framework, distinguishing between "modern" disasters characterized by high economic costs and "historical" events characterized by high human casualties.
 
 Ultimately, while PCA relies on assumptions of linearity, its efficiency, deterministic nature, and interpretability ensure its continued relevance. Whether applied to financial risk modeling, image processing, or disaster analysis, PCA remains an essential instrument for making data-driven decisions in an increasingly complex world.
 
 % =========================================================
-% REFERENCES
+% CHAPTER 8: REFERENCES (Renumbered & Updated)
 % =========================================================
 \newpage
 \chapter{\MakeUppercase{References}}
 
 \begin{enumerate}
-    \item Abdi, H., \& Williams, L. J. (2010). Principal component analysis.
-    \textit{WIREs Computational Statistics}, 2(4), 433–459. 
-    
-    \item Bishop, C. M. (2006).
-    \textit{Pattern recognition and machine learning} (Chapter 12). Springer.
-    
-    \item Duda, R. O., Hart, P. E., \& Stork, D. G. (2012).
-    \textit{Pattern classification} (2nd ed., Section 3.8). Wiley.
-    
-    \item Hastie, T., Tibshirani, R., \& Friedman, J. (2009).
-    \textit{The elements of statistical learning: Data mining, inference, and prediction} (2nd ed., Chapter 14.5). Springer.
-    
-    \item Hotelling, H. (1933).
-    Analysis of a complex of statistical variables into principal components. \textit{Journal of Educational Psychology}, 24(6), 417–441.
-    
-    \item James, G., Witten, D., Hastie, T., \& Tibshirani, R. (2021).
-    \textit{An introduction to statistical learning: With applications in R} (2nd ed., Chapter 12). Springer.
-    
+    \item Abdi, H., \& Williams, L. J. (2010). Principal component analysis. \textit{WIREs Computational Statistics}, 2(4), 433–459. 
+    \item Bishop, C. M. (2006). \textit{Pattern recognition and machine learning} (Chapter 12). Springer.
+    \item Duda, R. O., Hart, P. E., \& Stork, D. G. (2012). \textit{Pattern classification} (2nd ed., Section 3.8). Wiley.
+    \item Hastie, T., Tibshirani, R., \& Friedman, J. (2009). \textit{The elements of statistical learning: Data mining, inference, and prediction} (2nd ed., Chapter 14.5). Springer.
+    \item Hotelling, H. (1933). Analysis of a complex of statistical variables into principal components. \textit{Journal of Educational Psychology}, 24(6), 417–441.
+    \item James, G., Witten, D., Hastie, T., \& Tibshirani, R. (2021). \textit{An introduction to statistical learning: With applications in R} (2nd ed., Chapter 12). Springer.
     \item Jolliffe, I. T. (2002). \textit{Principal component analysis} (2nd ed.). Springer.
-
-    \item Pearson, K. (1901). On lines and planes of closest fit to systems of points in space.
-    \textit{Philosophical Magazine}, Series 6, 2(11), 559–572.
+    \item Pearson, K. (1901). On lines and planes of closest fit to systems of points in space. \textit{Philosophical Magazine}, Series 6, 2(11), 559–572.
+    \item Shlens, J. (2014). A tutorial on principal component analysis. \textit{arXiv preprint arXiv:1404.1100}.
+    \item Strang, G. (2023). \textit{Linear algebra and learning from data} (Chapter 7). Wellesley-Cambridge Press.
+    \item VanderPlas, J. (2016). \textit{Python data science handbook: Essential tools for working with data}. O’Reilly Media.
+    \item Han, J., Kamber, M., \& Pei, J. (2011). \textit{Data Mining: Concepts and Techniques} (3rd ed.). Morgan Kaufmann.
+    \item Strang, G. (2016). \textit{Introduction to Linear Algebra} (5th ed.). Wellesley-Cambridge Press.
+    \item Shlens, J. (2005). ``Notes on principal component analysis,'' Google Research. [Online]. Available: \url{https://www.cs.princeton.edu/picasso/mats/PCA-Tutorial-Intuition_josh.pdf}
+    \item ``Principal Component Analysis (PCA) explained,'' Towards Data Science. [Online]. Available: \url{https://towardsdatascience.com/pca-explained}
     
-    \item Shlens, J. (2014).
-    A tutorial on principal component analysis. \textit{arXiv preprint arXiv:1404.1100}.
-    
-    \item Strang, G. (2023).
-    \textit{Linear algebra and learning from data} (Chapter 7). Wellesley-Cambridge Press.
-    
-    \item VanderPlas, J. (2016).
-    \textit{Python data science handbook: Essential tools for working with data}. O’Reilly Media.
-    
-    \item Han, J., Kamber, M., \& Pei, J. (2011).
-    \textit{Data Mining: Concepts and Techniques} (3rd ed.). Morgan Kaufmann.
-    
-    \item Strang, G. (2016). \textit{Introduction to Linear Algebra} (5th ed.).
-    Wellesley-Cambridge Press.
-
-    % --- NEW REFERENCES ADDED FROM FILE ---
-    \item Shlens, J. (2005). ``Notes on principal component analysis,'' Google Research.
-    [Online]. Available: \url{https://www.cs.princeton.edu/picasso/mats/PCA-Tutorial-Intuition_josh.pdf}
-    
-    \item ``Principal Component Analysis (PCA) explained,'' Towards Data Science.
-    [Online]. Available: \url{https://towardsdatascience.com/pca-explained}
+    % --- NEW REFERENCES FOR STORYTELLING CHAPTER ---
+    \item Centre for Research on the Epidemiology of Disasters (CRED), ``Economic Adjustment Protocol,'' EM-DAT Documentation, Université catholique de Louvain, Brussels, Belgium. [Online]. Available: \url{https://doc.emdat.be/docs/protocols/economic-adjustment/}
+    \item General Statistics Office of Vietnam, ``Statistical Yearbook of Vietnam 2022,'' Statistical Publishing House, Hanoi, 2023.
+    \item The World Bank, ``Resilient Shores: Vietnam's Coastal Development Between Opportunity and Disaster Risk,'' Washington, DC: World Bank, 2020. doi: 10.1596/978-1-4648-1605-5.
 \end{enumerate}
+
+\appendix
+\chapter{Full Python Source Code}
+\label{appendix:code}
+
+
+\begin{lstlisting}[language=Python, frame=single, breaklines=true, basicstyle=\ttfamily\footnotesize, keywordstyle=\color{blue}, commentstyle=\color{gray}]
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+# --- 1. LOAD DATA ---
+df = pd.read_csv('disaster_in_vietnam.csv')
+
+# Select only the numerical impact variables
+features = ['Total Deaths', 'No. Injured', 'Total Affected', "Total Damage, Adjusted ('000 US$)"]
+X = df[features].fillna(0) 
+
+# --- 2. LOG TRANSFORMATION ---
+X_log = np.log1p(X)
+
+# --- 3. STANDARDIZATION ---
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_log)
+
+# --- 4. APPLY PCA ---
+pca = PCA(n_components=2)
+principalComponents = pca.fit_transform(X_scaled)
+pca_df = pd.DataFrame(data=principalComponents, columns=['PC1', 'PC2'])
+
+# --- NEW STEP 4.5: CALCULATE RECONSTRUCTION ERROR (Validation) ---
+# Project back to original space to see how much info was lost
+X_reconstructed = pca.inverse_transform(principalComponents)
+# Frobenius norm of the difference
+reconstruction_loss = np.linalg.norm(X_scaled - X_reconstructed) / np.linalg.norm(X_scaled)
+
+# --- 5. GRAPH 1: THE BIPLOT (CORRECTED) ---
+plt.figure(figsize=(10, 8))
+
+# Logic: 
+# PC2 > 0 (Positive/Blue) = Historical = High Human Casualties
+# PC2 < 0 (Negative/Red)  = Modern     = High Economic Cost
+colors = ['#d62728' if y < 0 else '#1f77b4' for y in pca_df['PC2']]
+
+for i, color in enumerate(['#d62728', '#1f77b4']):
+    # FIX: Swapped labels to match the analysis (Red=Economic, Blue=Human)
+    label = ['High Economic Cost', 'High Human Cost'][i] 
+    subset = pca_df[(pca_df['PC2'] < 0) if i == 0 else (pca_df['PC2'] >= 0)]
+    plt.scatter(subset['PC1'], subset['PC2'], alpha=0.6, c=color, edgecolors='k', label=label)
+
+# Draw arrows (Existing code is fine)
+scale_factor = 3.5
+for i, feature in enumerate(features):
+    plt.arrow(0, 0, pca.components_[0, i]*scale_factor, pca.components_[1, i]*scale_factor, 
+              color='black', width=0.05, head_width=0.2) 
+    plt.text(pca.components_[0, i]*scale_factor*1.15, pca.components_[1, i]*scale_factor*1.15, 
+             feature, color='black', weight='bold', fontsize=12, ha='center', va='center')
+
+plt.xlabel(f'PC1 - Overall Severity ({pca.explained_variance_ratio_[0]:.1%} Variance)')
+plt.ylabel(f'PC2 - Casualty vs. Economic ({pca.explained_variance_ratio_[1]:.1%} Variance)')
+plt.title('PCA of Vietnam Natural Disasters (Clustered by Impact Type)')
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.axhline(0, color='black', linewidth=0.8)
+plt.axvline(0, color='black', linewidth=0.8)
+plt.legend()
+plt.savefig('final_pca_biplot.png')
+plt.show()
+
+# --- 6. GRAPH 2: THE SCREE PLOT (The Variance Bar Chart) ---
+plt.figure(figsize=(8, 5))
+plt.plot(range(1, 3), pca.explained_variance_ratio_, marker='o', linestyle='--', color='b')
+plt.bar(range(1, 3), pca.explained_variance_ratio_, alpha=0.6, color='skyblue', label='Individual Variance')
+
+plt.title('Scree Plot: Variance Explained by Each Component')
+plt.xlabel('Principal Component')
+plt.ylabel('Variance Ratio')
+plt.xticks([1, 2], ['PC1', 'PC2'])
+plt.ylim(0, 1) # Set y-axis limit from 0 to 100%
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.legend()
+
+# SAVE GRAPH 2
+plt.savefig('final_scree_plot.png')
+print("Graph 2 saved as 'final_scree_plot.png'")
+plt.show()
+
+# Print Results
+print("\n--- ANALYSIS RESULTS ---")
+print(f"PC1 Variance: {pca.explained_variance_ratio_[0]:.2%}")
+print(f"PC2 Variance: {pca.explained_variance_ratio_[1]:.2%}")
+print(f"Total Variance Captured: {sum(pca.explained_variance_ratio_):.2%}")
+print(f"Reconstruction Loss: {reconstruction_loss:.4f} (Lower is better)")
+
+# --- 7. GRAPH 3: TIME-SERIES PCA (CORRECTED COLORS) ---
+plt.figure(figsize=(12, 6))
+
+years = df['Start Year']
+pc2_values = pca_df['PC2']
+colors_time = ['#d62728' if y < 0 else '#1f77b4' for y in pc2_values] # Red=Neg, Blue=Pos
+
+plt.scatter(years, pc2_values, alpha=0.7, c=colors_time, edgecolors='k', s=50)
+plt.axhline(0, color='black', linestyle='-', linewidth=1.5)
+
+y_min, y_max = pc2_values.min(), pc2_values.max()
+
+# FIX: Match text color to the point color
+# Historical = Positive PC2 = BLUE Points
+plt.text(years.min(), y_max - 0.5, "Historical Domain\n(High Casualties)", 
+         fontsize=11, color='#1f77b4', fontweight='bold', va='top') # Changed to Blue
+
+# Modern = Negative PC2 = RED Points
+plt.text(years.max() - 15, y_min + 0.5, "Modern Domain\n(High Economic Cost)", 
+         fontsize=11, color='#d62728', fontweight='bold', va='bottom', ha='right')
+
+plt.title('Evolution of Disaster Impact Nature (1953-2023)', fontsize=14)
+plt.xlabel('Year', fontsize=12)
+plt.ylabel('PC2 Value (Nature of Impact)', fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.5)
+
+z = np.polyfit(years, pc2_values, 1)
+p = np.poly1d(z)
+plt.plot(years, p(years), "g--", linewidth=2, label=f'Trend (Slope: {z[0]:.4f})')
+plt.legend()
+
+plt.savefig('final_pca_time_series.png')
+plt.show()
+\end{lstlisting}
 
 \end{document}

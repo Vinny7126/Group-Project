@@ -29,21 +29,21 @@ X_reconstructed = pca.inverse_transform(principalComponents)
 # Frobenius norm of the difference
 reconstruction_loss = np.linalg.norm(X_scaled - X_reconstructed) / np.linalg.norm(X_scaled)
 
-# --- 5. GRAPH 1: THE BIPLOT (Updated with Clustering Colors) ---
+# --- 5. GRAPH 1: THE BIPLOT (CORRECTED) ---
 plt.figure(figsize=(10, 8))
 
-# Create Logic for Colors: 
-# If PC2 > 0: High Economic Damage (Blue)
-# If PC2 < 0: High Human Casualties (Red)
+# Logic: 
+# PC2 > 0 (Positive/Blue) = Historical = High Human Casualties
+# PC2 < 0 (Negative/Red)  = Modern     = High Economic Cost
 colors = ['#d62728' if y < 0 else '#1f77b4' for y in pca_df['PC2']]
 
-# We use a loop to create a legend with unique entries
 for i, color in enumerate(['#d62728', '#1f77b4']):
-    label = ['High Human Cost', 'High Economic Cost'][i]
-    subset = pca_df [ (pca_df['PC2'] < 0) if i==0 else (pca_df['PC2'] >= 0) ]
+    # FIX: Swapped labels to match the analysis (Red=Economic, Blue=Human)
+    label = ['High Economic Cost', 'High Human Cost'][i] 
+    subset = pca_df[(pca_df['PC2'] < 0) if i == 0 else (pca_df['PC2'] >= 0)]
     plt.scatter(subset['PC1'], subset['PC2'], alpha=0.6, c=color, edgecolors='k', label=label)
 
-# Draw arrows
+# Draw arrows (Existing code is fine)
 scale_factor = 3.5
 for i, feature in enumerate(features):
     plt.arrow(0, 0, pca.components_[0, i]*scale_factor, pca.components_[1, i]*scale_factor, 
@@ -58,9 +58,7 @@ plt.grid(True, linestyle='--', alpha=0.5)
 plt.axhline(0, color='black', linewidth=0.8)
 plt.axvline(0, color='black', linewidth=0.8)
 plt.legend()
-
-plt.savefig('final_pca_biplot.png') 
-print("Graph 1 saved as 'final_pca_biplot.png'")
+plt.savefig('final_pca_biplot.png')
 plt.show()
 
 # --- 6. GRAPH 2: THE SCREE PLOT (The Variance Bar Chart) ---
@@ -87,3 +85,37 @@ print(f"PC1 Variance: {pca.explained_variance_ratio_[0]:.2%}")
 print(f"PC2 Variance: {pca.explained_variance_ratio_[1]:.2%}")
 print(f"Total Variance Captured: {sum(pca.explained_variance_ratio_):.2%}")
 print(f"Reconstruction Loss: {reconstruction_loss:.4f} (Lower is better)")
+
+# --- 7. GRAPH 3: TIME-SERIES PCA (CORRECTED COLORS) ---
+plt.figure(figsize=(12, 6))
+
+years = df['Start Year']
+pc2_values = pca_df['PC2']
+colors_time = ['#d62728' if y < 0 else '#1f77b4' for y in pc2_values] # Red=Neg, Blue=Pos
+
+plt.scatter(years, pc2_values, alpha=0.7, c=colors_time, edgecolors='k', s=50)
+plt.axhline(0, color='black', linestyle='-', linewidth=1.5)
+
+y_min, y_max = pc2_values.min(), pc2_values.max()
+
+# FIX: Match text color to the point color
+# Historical = Positive PC2 = BLUE Points
+plt.text(years.min(), y_max - 0.5, "Historical Domain\n(High Casualties)", 
+         fontsize=11, color='#1f77b4', fontweight='bold', va='top') # Changed to Blue
+
+# Modern = Negative PC2 = RED Points
+plt.text(years.max() - 15, y_min + 0.5, "Modern Domain\n(High Economic Cost)", 
+         fontsize=11, color='#d62728', fontweight='bold', va='bottom', ha='right')
+
+plt.title('Evolution of Disaster Impact Nature (1953-2023)', fontsize=14)
+plt.xlabel('Year', fontsize=12)
+plt.ylabel('PC2 Value (Nature of Impact)', fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.5)
+
+z = np.polyfit(years, pc2_values, 1)
+p = np.poly1d(z)
+plt.plot(years, p(years), "g--", linewidth=2, label=f'Trend (Slope: {z[0]:.4f})')
+plt.legend()
+
+plt.savefig('final_pca_time_series.png')
+plt.show()
